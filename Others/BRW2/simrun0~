@@ -1,0 +1,12 @@
+./rd4H -u Cmdenv -c net100  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net200  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net300  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net400  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net500  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net600  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net700  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net800  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net900  -f omnetHH.ini -r 0
+./rd4H -u Cmdenv -c net1000  -f omnetHH.ini -r 0
+
+

@@ -1,0 +1,577 @@
+//
+// This file is part of an OMNeT++/OMNEST simulation example.
+//
+// Copyright (C) 2003 Ahmet Sekercioglu
+// Copyright (C) 2003-2008 Andras Varga
+//
+// This file is distributed WITHOUT ANY WARRANTY. See the file
+// `license' for details on this and other legal matters.
+//
+
+#include <stdio.h>
+#include <string.h>
+#include <omnetpp.h>
+#include "rd_message_m.h"
+
+using namespace std;
+
+/**
+ * The main problem with the previous step is that we must modify the model's
+ * code if we want to change what statistics are gathered. Statistic calculation
+ * is woven deeply into the model code which is hard to modify and understand.
+ *
+ * OMNeT++ 4.1 provides a different mechanism called 'signals' that we can use
+ * to gather statistics. First we have to identify the events where the state
+ * of the model changes. We can emit signals at these points that carry the value
+ * of chosen state variables. This way the C++ code only emits signals, but how those
+ * signals are processed are determined only by the listeners that are attached to them.
+ *
+ * The signals the model emits and the listeners that process them can be defined in
+ * the NED file using the 'signal' and 'statistic' property.
+ *
+ * We will gather the same statistics as in the previous step, but notice that we will not need
+ * any private member variables to calculate these values. We will use only a single signal that
+ * is emitted when a message arrives and carries the hopcount in the message.
+ */
+static const int LN=0;//instant role leaf node
+static const int AN=1;//instant role aggregate node
+static const int SN=2;//instant role super node
+
+// startup events
+static const int JoinRequest=5006;//event_Type
+static const int JoinAccept=5007;//event_Type
+static const int UpdateQmsId=5008;//event_Type
+static const int FilledGroup=5009;//event_Type
+static const int DenyUpdate=5010;//event_Type
+static const int SuperNodeElection=5011; //event_type
+static const int VoteYes=5012;//event_type
+static const int UpdateSqmsId=5013;//event_Type
+static const int DenySQMSUpdate=514;//event_type
+static const int Start_ID_Request=515;//event_type
+static const int ID_Request=516;//event_type
+static const int ID_Reply=517;//event_type
+static const int Max_Startup_Time=3000;
+static const int WakeUp=518;
+static const int EndingFR=519;
+static const int _null=-1;
+static const int Max_Number_of_Members_in_AGroup=10;
+
+
+
+class rdNode : public cSimpleModule
+{
+  private:
+	simsignal_t arrivalSignal;
+	int module_role;
+	int resource_id,qms_id,sqms_id;
+	map<int,int> neigbours_group;
+	int number_of_agroup_members;
+	vector<int> list_of_possible_aggregate_nodes;
+
+
+  protected:
+	void forwardMessage(rdMessage *msg);
+	void send_message_to_a_random_neigbour(rdMessage *msg);
+	bool check_local_lgroup_joining_possibility();
+	bool is_it_a_registerd_gate(int gateNumber);
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+    virtual void finish();
+
+  public:
+    rdNode();
+ //   virtual ~rdNode();
+
+};
+
+Define_Module(rdNode);
+/*
+rdNode::rdNode(){
+    module_role=_null;
+
+
+}*/
+
+rdNode::rdNode() {
+    module_role=-1;
+    resource_id=-1;
+    sqms_id=-1;
+    qms_id=-1;
+    number_of_agroup_members=1;
+}
+
+void rdNode::initialize()
+{
+    arrivalSignal = registerSignal("arrival");
+    resource_id= getIndex();
+    char msgname[20];
+  //  module_role=_null;
+    //simtime_t start_time;
+
+    //start_time=getIndex();
+//if (getIndex()==4) {
+
+    sprintf(msgname, "Start_ID_Request");
+    rdMessage *msg = new rdMessage(msgname);
+    msg->setMtype(Start_ID_Request);
+  //  scheduleAt(getIndex()/10.,msg);
+    scheduleAt(0, msg);
+
+//}
+
+
+/*
+    // Module 0 sends the first message
+    if (getIndex()==4) {
+        char msgname[20];
+        sprintf(msgname, "Test");
+        rdMessage *msg = new rdMessage(msgname);
+        msg->setSource(resource_id);
+        msg->setDestination(0);
+        msg->setMtype(100);
+
+        scheduleAt(0.45, msg);
+    }
+*/
+
+//if (getIndex()==4) {
+    simtime_t wake_up_time;
+    wake_up_time =1.0 + uniform(0,Max_Startup_Time)/ 1000.0 ;
+
+    EV << "wT=" << wake_up_time << endl;
+    sprintf(msgname, "Wake up");
+    rdMessage *wmsg = new rdMessage(msgname);
+    wmsg->setMtype(WakeUp);
+    scheduleAt(wake_up_time  , wmsg);
+    sprintf(msgname, "Ending First Round");
+    rdMessage *efrmsg = new rdMessage(msgname);
+    efrmsg->setMtype(EndingFR);
+    scheduleAt(wake_up_time+5.  , efrmsg);
+ //   } forwardMessage(ttmsg);
+
+}
+
+void rdNode::handleMessage(cMessage *msg)
+{
+    rdMessage *ttmsg = check_and_cast<rdMessage *>(msg);
+    char msgname[20];
+
+
+  /*  int n = gateSize("gate");
+     EV << "\n Start: resource Id =" << resource_id << "--   ";
+      for (int i=0;i<=n-1;i++) {
+          int a=gate("gate$o", i)->getIndex();
+          EV << "gate name= " << a << ", ";
+      }
+      EV << "\n";
+      */
+    switch (ttmsg->getMtype()) {
+
+        case Start_ID_Request: {
+            delete ttmsg;
+            int n = gateSize("gate");
+            for (int i=0;i<=n-1;i++) {
+                if (!is_it_a_registerd_gate(i)){
+                sprintf(msgname, "ID_Request");
+                rdMessage *reqmsg = new rdMessage(msgname);
+
+                reqmsg->setMtype(ID_Request);
+                reqmsg->setIntContent(resource_id);
+                send(reqmsg, "gate$o", i);
+                }
+            }
+
+
+
+
+            break;
+        }
+        case ID_Request: {
+            cGate * ingate=ttmsg->getArrivalGate();
+
+            neigbours_group.insert ( pair<int,int>(ttmsg->getIntContent(),ingate->getIndex()) );
+
+            delete ttmsg;
+            sprintf(msgname, "ID_Reply");
+            rdMessage *repmsg = new rdMessage(msgname);
+            repmsg->setMtype(ID_Reply);
+            repmsg->setIntContent(resource_id);
+
+
+            send(repmsg, "gate$o", ingate->getIndex());
+
+            break;
+        }
+
+        case ID_Reply: {
+            cGate * ingate=ttmsg->getArrivalGate();
+            neigbours_group.insert ( pair<int,int>(ttmsg->getIntContent(),ingate->getIndex()) );
+
+
+            delete ttmsg;
+
+            break;
+
+        }
+        case WakeUp: {
+
+                    if (module_role==-1) {
+                        bubble("Start Sending Join Requests");
+
+
+                     //   int n = gateSize("gate");
+                        sprintf(msgname, "JoinRequest");
+                        rdMessage *jrmsg;
+                        map<int,int>::iterator it;
+                        for (it=neigbours_group.begin(); it!=neigbours_group.end(); ++it) {
+                            jrmsg = new rdMessage(msgname);
+                            jrmsg->setMtype(JoinRequest);
+                            jrmsg->setSource(resource_id);
+                            jrmsg->setDestination(it->first);
+                            forwardMessage(jrmsg);
+
+                        }
+
+
+                  /*      for (int k =0;k<=n-1;k++) {
+                            jrmsg = new rdMessage(msgname);
+                            jrmsg->setMtype(JoinRequest);
+                            jrmsg->setSource(resource_id);
+
+                            send(jrmsg, "gate$o", k);
+                            }
+                   */
+
+                        }
+
+
+                    delete ttmsg;
+
+
+                    break;
+
+        }
+        case JoinRequest: {
+            if (ttmsg->getDestination()==resource_id){
+                if (module_role==-1) {
+                    module_role=LN;
+                    qms_id=ttmsg->getSource();
+                    rdMessage *jamsg;
+                    sprintf(msgname, "JoinAccept");
+                    jamsg = new rdMessage(msgname);
+                    jamsg->setMtype(JoinAccept);
+                    jamsg->setSource(resource_id);
+                    jamsg->setDestination(qms_id);
+                    forwardMessage(jamsg);
+                    delete ttmsg;
+
+                }
+                else if (module_role==LN) {
+                    ttmsg->setDestination(qms_id);
+                    forwardMessage(ttmsg);
+
+                }
+                else {
+                    bool poss=check_local_lgroup_joining_possibility();
+                    if (poss) {
+                        sprintf(msgname, "Update QMS ID");
+                        rdMessage *uqmsg;
+                        uqmsg = new rdMessage(msgname);
+                        uqmsg->setMtype(UpdateQmsId);
+                        uqmsg->setSource(resource_id);
+                        uqmsg->setDestination(ttmsg->getSource());
+                        number_of_agroup_members++;
+                        forwardMessage(uqmsg);
+
+                    }
+                    else {
+                        list_of_possible_aggregate_nodes.push_back(ttmsg->getSource());
+                    }
+                    delete ttmsg;
+
+                }
+
+
+            }
+            else {
+                forwardMessage(ttmsg);
+
+            }
+
+
+            break;
+
+
+
+        }
+        case UpdateQmsId: {
+            if (ttmsg->getDestination()==resource_id) {
+                if (module_role==-1) {
+                    module_role=LN;
+                    qms_id=ttmsg->getSource();
+                    delete ttmsg;
+
+                }
+                else if (module_role==LN){
+                    sprintf(msgname, "Deny Update");
+                    rdMessage *dumsg;
+                    dumsg = new rdMessage(msgname);
+                    dumsg->setMtype(DenyUpdate);
+                    dumsg->setSource(resource_id);
+                    dumsg->setDestination(ttmsg->getSource());
+                    forwardMessage(dumsg);
+                    delete ttmsg;
+
+                }
+                else {
+                    sprintf(msgname, "Deny Update");
+                    rdMessage *dumsg;
+                    dumsg = new rdMessage(msgname);
+                    dumsg->setMtype(DenyUpdate);
+                    dumsg->setSource(resource_id);
+                    dumsg->setDestination(ttmsg->getSource());
+                    forwardMessage(dumsg);
+                    list_of_possible_aggregate_nodes.push_back(ttmsg->getSource());
+                    delete ttmsg;
+
+                }
+
+            }
+            else {
+                forwardMessage(ttmsg);
+
+            }
+
+
+
+
+            break;
+        }
+        case DenyUpdate:{
+            if (ttmsg->getDestination()==resource_id) {
+                if (module_role==-1) {
+
+                }
+                else if (module_role==LN) {
+
+                }
+                else {
+                    number_of_agroup_members--;
+
+                }
+                delete ttmsg;
+
+            }
+            else {
+                forwardMessage(ttmsg);
+
+            }
+            break;
+        }
+        case JoinAccept: {
+            if (module_role==-1) {
+                module_role=AN;
+                qms_id=resource_id;
+                delete ttmsg;
+
+            }
+            else if (module_role==LN) {
+                delete ttmsg;
+
+            }
+            else {
+                bool poss=check_local_lgroup_joining_possibility();
+                if (poss) {
+                    number_of_agroup_members++;
+                }
+                else {
+                    rdMessage *fgp_msg;
+                    fgp_msg = new rdMessage(msgname);
+                    sprintf(msgname, "FilledGroup");
+                    fgp_msg->setMtype(FilledGroup);
+                    fgp_msg->setSource(resource_id);
+                    fgp_msg->setDestination(ttmsg->getSource());
+                    forwardMessage(fgp_msg);
+
+                    list_of_possible_aggregate_nodes.push_back(ttmsg->getSource());
+
+                }
+                delete ttmsg;
+            }
+
+
+            break;
+               }
+        case FilledGroup: {
+
+
+            if (ttmsg->getDestination()==resource_id) {
+                if (module_role==-1) {
+                    delete ttmsg;
+                }
+                else if (module_role==LN) {
+                    module_role=-1;
+                    qms_id=-1;
+                    //jflag=0;
+                    delete ttmsg;
+                }
+                else {
+                    delete ttmsg;
+
+                }
+
+            }
+            else {
+                forwardMessage(ttmsg);
+            }
+
+            break;
+        }
+        case EndingFR: {
+            if (module_role==-1) {
+                module_role=AN;
+                qms_id= resource_id;
+
+
+            }
+
+            cDisplayString& dispStr = getDisplayString();
+            char xbuf[7];
+            sprintf(xbuf,"#%06x",(qms_id+1)*10000);
+            //sprintf(xbuf, "#123456");
+
+            if (module_role==1) {
+                dispStr.setTagArg("i",1,"red");
+                EV<< "this is it:"<< dispStr.str()<< endl;
+
+            }
+            else if (module_role==0) {
+                dispStr.setTagArg("i",1,xbuf);
+                EV<< "this is it:"<< dispStr.str()<< endl;
+
+            }
+            else {
+              //  dispStr.set("i=red/routing");
+                dispStr.setTagArg("i",1,"white");
+                EV<< "this is it:"<< dispStr.str()<< endl;
+            }
+            delete ttmsg;
+            break;
+        }
+
+        default: {
+            if (ttmsg->getDestination()==resource_id) {
+                delete ttmsg;
+                bubble("ARRIVED in destination");
+
+            }
+            else {
+                forwardMessage(ttmsg);
+
+            }
+
+            break;
+        }
+
+
+
+
+
+
+
+
+    }
+
+
+  /*
+    if (ttmsg->getDestination()==getIndex())
+    {
+        // Message arrived
+        int hopcount = ttmsg->getHopCount();
+        // send a signal
+        emit(arrivalSignal, hopcount);
+
+        EV << "Message " << ttmsg << " arrived after " << hopcount << " hops.\n";
+        bubble("ARRIVED, starting new one!");
+
+        delete ttmsg;
+
+        // Generate another one.
+        EV << "Generating another message: ";
+        rdMessage *newmsg = generateMessage();
+        EV << newmsg << endl;
+        forwardMessage(newmsg);
+    }
+    else
+    {
+        // We need to forward the message.
+        forwardMessage(ttmsg);
+    }
+
+    */
+}
+
+
+
+
+void rdNode::send_message_to_a_random_neigbour(rdMessage *msg) {
+    int n = gateSize("gate");
+    int k = intuniform(0,n-1);
+    send(msg, "gate$o", k);
+
+
+}
+void rdNode::forwardMessage(rdMessage *msg)
+{
+  //  msg->setDestination(destination);
+    // Produce source and destination addresses.
+/*    msg->setSource(resource_id);
+
+    */
+ /*   int n = size();
+    int dest = intuniform(0,n-2);
+    if (dest>=src) dest++;
+*/
+    msg->setHopCount(msg->getHopCount()+1);
+    if (neigbours_group.count(msg->getDestination())>0) {
+        send(msg, "gate$o", neigbours_group.find(msg->getDestination())->second);
+        }
+    else {
+        send_message_to_a_random_neigbour(msg);
+    }
+}
+
+void rdNode::finish()
+{
+    // This function is called by OMNeT++ at the end of the simulation.
+if (module_role==AN){
+        EV << "Start\n" ;
+        EV << "resource_id: " << resource_id << endl;
+        EV << "Number of Members:" << number_of_agroup_members << endl;
+        EV << "Module Role:     " << module_role << endl;
+        EV << "qms_id:    " << qms_id << endl;
+        EV << "sqms_id:    " << sqms_id << endl;
+        EV << "End\n" ;
+    }
+}
+bool rdNode::check_local_lgroup_joining_possibility() {
+
+    if (number_of_agroup_members < Max_Number_of_Members_in_AGroup)
+        return true;
+    else
+        return false;
+
+}
+
+bool rdNode::is_it_a_registerd_gate(int gateNumber) {
+    map<int,int>::iterator it;
+
+    for (it=neigbours_group.begin(); it!=neigbours_group.end();++it) {
+        if (it->second==gateNumber)
+            return true;
+    }
+
+
+      return false;
+}
+

@@ -1,0 +1,1 @@
+-g -Wall -fPIC  -fno-stack-protector -DHAVE_SWAPCONTEXT  -DHAVE_PCAP -DXMLPARSER=expat -DWITH_PARSIM -DWITH_NETBUILDER  -I. -IFER -IFER/Hard3-1 -IFER/Hard3-2 -IFER/Hard3-3 -IFER/Hard3-4-NOK -IFER/Hard3-5-NOK -IFER/Hard3-6-OK -Iresults -Isrc -I/home/jzarrin/Prj/omnetpp-4.2.2/include

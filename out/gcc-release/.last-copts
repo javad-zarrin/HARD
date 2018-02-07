@@ -1,0 +1,1 @@
+-O2 -DNDEBUG=1 -fPIC  -fno-stack-protector -DHAVE_SWAPCONTEXT  -DHAVE_PCAP -DXMLPARSER=libxml -DWITH_PARSIM -DWITH_NETBUILDER  -I. -Ijnews -Ijnews/10 -Ioldresults -Iresults -Isrc -I/home/jzarrin/Prj/omn/omnetpp-4.5/include

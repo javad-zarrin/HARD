@@ -1,0 +1,10 @@
+./rd4 -u Cmdenv -c net300  -f omnetpp.ini -r 0
+./rd4 -u Cmdenv -c net400  -f omnetpp.ini -r 0
+./rd4 -u Cmdenv -c net500  -f omnetpp.ini -r 0
+./rd4 -u Cmdenv -c net600  -f omnetpp.ini -r 0
+./rd4 -u Cmdenv -c net700  -f omnetpp.ini -r 0
+./rd4 -u Cmdenv -c net800  -f omnetpp.ini -r 0
+./rd4 -u Cmdenv -c net900  -f omnetpp.ini -r 0
+./rd4 -u Cmdenv -c net1000  -f omnetpp.ini -r 0
+
+

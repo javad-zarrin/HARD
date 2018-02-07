@@ -1,0 +1,282 @@
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#87: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "ModuleInspector:adjustWindowSizeAndZoom" line 13)
+    invoked from within
+"ModuleInspector:adjustWindowSizeAndZoom $insp"
+    (procedure "ModuleInspector:onSetObject" line 14)
+    invoked from within
+"ModuleInspector:onSetObject .network"
+
+
